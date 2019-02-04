@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <div class="test">Hi!</div>
+
+  <script>
+    let httpRequest = new XMLHttpRequest();
+    let api = "https://google.com"
+    httpRequest.open("GET", api, false);
+    httpRequest.send();
+    console.log(httpRequest.responseText);
+
+    var http = require('http');
+    function getLoginDetails(callback) {
+    return http.get({
+            host: 'locatemap.in',
+            path: '/userDetail'
+        }, function(response) {
+            // Continuously update stream with data
+            var body = '';
+            response.on('data', function(d) {
+                body += d;
+            });
+            response.on('end', function() {
+            // Data received, let us parse it using JSON!
+                var parsed = JSON.parse(body);
+                callback({
+                    userDetail: parsed.name,
+                    userId: parsed.Id
+                });
+            });
+        });
+    }
+  </script>
+</body>
+</html>
