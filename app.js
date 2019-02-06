@@ -1,7 +1,8 @@
+const parse = require('querystring');
 const http = require('http');
-const port = 3000;
-const { parse } = require('querystring');
+const port = 8080;
 var name = '';
+
 var s = http.createServer();
 s.on('request', function(request, response) {
 
@@ -52,7 +53,7 @@ s.on('request', function(request, response) {
 
   if (request.url === '/api/hello' && request.method === 'DELETE') {
     name = '';
-    response.write('Status code: ' + response.statusCode);
+    response.statusCode = 204;
     response.end();
   }
 });
