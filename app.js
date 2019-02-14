@@ -9,7 +9,9 @@ s.on('request', function(request, response) {
   function handlleRequest() {
     let body = '';
     request.on('data', chunk => {
+        console.log(chunk)
         body += chunk.toString(); // convert Buffer to string
+        console.log(body)
     });
     request.on('end', () => {
       let objBody = JSON.parse(body);
