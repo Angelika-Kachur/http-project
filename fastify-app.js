@@ -4,9 +4,7 @@ fastify.register(require('fastify-formbody'))
 
 let name = '';
 
-fastify.route({
-  method: 'GET',
-  url: '/api/hello',
+const optsGet = {
   handler: function (request, reply) {
     let jsonGet = { message: 'Hello World!'}
     if(name != '') {
@@ -16,47 +14,30 @@ fastify.route({
       reply.send(JSON.stringify(jsonGet));
     }
   }
-});
+}
 
-fastify.route({
-  method: 'HEAD',
-  url: '/api/hello',
-  handler: function (request, reply) {
-    reply.send();
-  }
-});
-
-fastify.route({
-  method: 'POST',
-  url: '/api/hello',
+const optsPost = {
   handler: function (request, reply) {
     if(request.body.name != '') {
       name = request.body.name;
     }
     reply.send({ message: 'Hello World!' });
   }
-});
+}
 
-fastify.route({
-  method: 'PUT',
-  url: '/api/hello',
-  handler: function (request, reply) {
-    if(request.body.name != '') {
-      name = request.body.name;
-    }
-    reply.send({ message: 'Hello World!' });
-  }
-});
+fastify.get('/api/hello', optsGet);
 
-fastify.route({
-  method: 'DELETE',
-  url: '/api/hello',
-  handler: function (request, reply) {
-    name = '';
+fastify.head('/api/hello', optsGet);
+
+fastify.post('/api/hello', optsPost);
+
+fastify.put('/api/hello', optsPost);
+
+fastify.delete('/api/hello', (request, reply) => {
+  name = '';
     reply
     .code(204)
     .send({ why: 'doesnt work' })
-  }
 });
 
 // Run the server!
