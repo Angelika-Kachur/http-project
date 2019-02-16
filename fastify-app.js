@@ -2,26 +2,22 @@
 const fastify = require('fastify')()
 fastify.register(require('fastify-formbody'))
 
-let name = '';
+let name = 'World!';
+let makeJson = name => {return { message: 'Hello ' + name}};
 
 const optsGet = {
-  handler: function (request, reply) {
-    let jsonGet = { message: 'Hello World!'}
-    if(name != '') {
-      jsonGet['message'] = 'Hello ' + name;
-      reply.send(JSON.stringify(jsonGet));
-    } else {
-      reply.send(JSON.stringify(jsonGet));
-    }
+  handler: function (request, resp) {
+      console.log(JSON.stringify(makeJson(name)));
+      resp.send(JSON.stringify(makeJson(name)));
   }
 }
 
 const optsPost = {
-  handler: function (request, reply) {
+  handler: function (request, resp) {
     if(request.body.name != '') {
       name = request.body.name;
     }
-    reply.send({ message: 'Hello World!' });
+    resp.send(JSON.stringify(makeJson(name)));
   }
 }
 
@@ -33,9 +29,9 @@ fastify.post('/api/hello', optsPost);
 
 fastify.put('/api/hello', optsPost);
 
-fastify.delete('/api/hello', (request, reply) => {
-  name = '';
-    reply
+fastify.delete('/api/hello', (request, resp) => {
+  name = 'World!';
+    resp
     .code(204)
     .send({ why: 'doesnt work' })
 });
